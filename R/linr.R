@@ -28,18 +28,11 @@ library("RcppArmadillo")
 #'         }
 #'
 #' @export
-#'
-#'
-#'
 
 linr <- function(formula, data, method = "cholesky") {
 
-  # Exclude NA in data if exist. This function uses complete data to fit regression model.
-  # data = na.omit(data)
-
   cl = match.call()
-
-  if (hasArg(data)) {mf = model.frame(formula, na.omit(data))}
+  if (hasArg(data)) {mf = model.frame(formula, na.omit(data))} # Exclude NA in data if exist.
   else {mf = model.frame(formula)}
 
   # Defining the outcome matrix Y and the Observation matrix X. Y's elements should be all numeric.
@@ -60,24 +53,6 @@ linr <- function(formula, data, method = "cholesky") {
 
   n = nrow(X)
   p = ncol(X)
-
-# test
-# --------------
-#   obs = rownames(mf)
-#   var = colnames(mf)[-1]
-#
-#   if (is.null(var)) {
-#     var = c("(Intercept)", paste0("x", 1:p))
-#   } else {
-#     var = c("(Intercept)", var)
-#   }
-#
-#   if (is.null(obs)) {
-#     obs = as.character(1:n)
-#   }
-#
-# # ------------------
-
 
   # NOTE: should contain value of betahat, MSE, SE.betahat, fit.val, residuals, R.squared, Adj.R.squared, T.stat, p.val
 
@@ -125,7 +100,6 @@ linr <- function(formula, data, method = "cholesky") {
     }
 
     else if (method == "qr") { # if using QR decomposition method
-
       for (j in 1:p) { # Householder transformation
         id = j:n
         sigma = sum(X[id,j]^2)
@@ -144,7 +118,6 @@ linr <- function(formula, data, method = "cholesky") {
         Y[id] = Y[id] - X[id, j] * Y.prime
         X[j,j] = kappa
       }
-
       betahat = rep(NA, p)
       for (j in p:1) { # Using Backward solvin to obtain betahat
         betahat[j] <- Y[j]
@@ -156,10 +129,10 @@ linr <- function(formula, data, method = "cholesky") {
     }
 
     else { # Else, do Cholesky decomposition as defult.
-      tXX = crossprod(X)
-      tXY = crossprod(X,Y)
-      R = chol(tXX)
-      z = forwardsolve(R, tXY, upper.tri = TRUE, transpose = TRUE)
+      XtX = crossprod(X)
+      XtY = crossprod(X,Y)
+      R = chol(XtX)
+      z = forwardsolve(R, XtY, upper.tri = TRUE, transpose = TRUE)
       betahat = backsolve(R, z)
     }
 
@@ -248,6 +221,51 @@ round(linr(Y~X)$residuals[9898], 10) == round(lm(Y~X)$residuals[9898], 10)
 
 
 
+
+summary.linr = function(fit) {
+
+  summ = fit
+  var.name = names( fit$coefficients )
+  summ$aliased = drop( is.na( coef(fit) ) )
+  summ$coefficients = cbind( fit$coefficients, fit$sd.beta, fit$`t value`, fit$`Pr(>|t|)` )
+  dimnames(summ$coefficients) = list( var.name, c("Estimate", "Std. Error", "t value", "Pr(>|t|)") )
+
+  fdf = length(fit$coefficients) - 1
+  summ$fstatistic = c(fit$fstatistic, fdf, fit$df.residual)
+  names(summ$fstatistic) = c("value", "numdf", "dendf")
+  summ$fpval = pf(fit$fstatistic, fdf, fit$df.residual, lower.tail = F)
+
+  if ( prt ) {
+    cat("\nCall:\n")
+    print( summ$call )
+    cat("\nResiduals:\n")
+    print( round(summary(fit$residuals)[-4], 5) )
+    cat("\nCoefficients:\n")
+    print( round(summ$coefficients, 5) )
+    cat( sprintf("\nResidual standard erro:%.2f on %d degrees of freedom\n", fit$sigma, fit$df.residual) )
+    cat( sprintf("Multiple R-squared:\t%.4f,\tAdjusted R-squared:\t%.4f\n", fit$r.squared, fit$adj.r.squared) )
+    cat( sprintf("F-statistic: %.2f on %d and %d DF, p-value: %e\n", fit$fstatistic, fdf, fit$df.residual, summ$fpval) )
+  }
+
+  if ( correlation ) {
+    summ$correlation = (fit$cov.unscaled * fit$sigma^2) / outer(fit$sd.beta, fit$sd.beta)
+    dimnames( summ$correlation ) = list( var.name, var.name )
+    cor.tri = summ$correlation
+
+    if ( prt ) {
+      cat("\nCorrelation of Coefficients:\n")
+      cor.tri = round(cor.tri, 2)
+      cor.tri[upper.tri(cor.tri, diag = TRUE)] = ""
+      print( cor.tri[-1, -ncol(cor.tri)], quote = FALSE )
+    }
+
+  }
+  summ[["sd.beta"]] = NULL
+  summ[["t value"]] = NULL
+  summ[["Pr(>|t|)"]] = NULL
+  return( summ )
+
+}
 
 
 
