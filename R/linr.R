@@ -61,7 +61,7 @@ linr <- function(formula, data, method = "cholesky") {
   n = nrow(X)
   p = ncol(X)
 
-
+# test
 # --------------
 #   obs = rownames(mf)
 #   var = colnames(mf)[-1]
