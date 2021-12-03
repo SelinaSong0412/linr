@@ -1,0 +1,104 @@
+---
+title: "Efficiency Tests for 'linr'"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Efficiency Tests for 'linr'}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(linr)
+```
+
+# Efficiency Testing:
+
+**Example for Simple Linear Regression with Big Data**
+
+```{r}
+y.big = rnorm(5000000)
+x.big = rnorm(5000000)
+linr.fit = linr(y.big ~ x.big)
+lm.fit = lm(y.big ~ x.big)
+
+# Testing Correctness:
+all(c(all.equal(lm.fit$coefficients, linr.fit$coefficients), 
+      all.equal(lm.fit$fitted.values, linr.fit$fitted.values),
+      all.equal(lm.fit$residuals, linr.fit$residuals)))
+```
+
+```{r}
+# Testing Efficiency:
+time.lm = system.time(lm(y.big ~ x.big))                                   # Fitted by lm function 
+time.linr = system.time(linr(y.big ~ x.big))                               # Fitted by defult method (Cholesky)
+time.linr.qr = system.time(linr(y.big ~ x.big, method = "qr"))             # Fitted by QR decomposition
+time.linr.svd = system.time(linr(y.big ~ x.big, method = "svd"))           # Fitted by SVD decomposition
+time.linr.cholesky = system.time(linr(y.big ~ x.big, method = "cholesky")) # Fitted by Cholesky decomposition
+
+data.frame(elapsed_time = c(lm = time.lm[3],
+                            linr = time.linr[3],
+                            linr.qr = time.linr.qr[3],
+                            linr.svd = time.linr.svd[3],
+                            linr.cholesky = time.linr.cholesky[3]))
+```
+
+**Example for Multiple Linear Regression with Big Data**
+
+```{r}
+args = commandArgs(trailingOnly = TRUE)
+if (length(args) == 0) {
+  n = 10000L
+  p = 500L
+  q = 5L
+  rho = 0.99
+} else {
+  n = as.integer(args[1])
+  p = as.integer(args[2])
+  q = as.integer(args[3])
+  rho = as.numeric(args[4])
+}
+X.big = matrix(rnorm(p * n, sd = sqrt(1 - rho)), nrow = n, ncol = p) + 
+        matrix(rnorm(n, sd = sqrt(rho)), nrow = n, ncol = p)
+beta = c(rep(c(1, -1), length = q), rep(0, length = p - q)) # True coefficient
+epsi = rnorm(n, sd = 1)                                     # True error term
+Y.big = X.big %*% beta + epsi
+```
+
+```{R}
+# Testing Correctness:
+linr.fit.mul = linr(Y.big ~ X.big)
+lm.fit.mul = lm(Y.big ~ X.big)
+
+all(c(all.equal(lm.fit.mul$coefficients, linr.fit.mul$coefficients), 
+      all.equal(lm.fit.mul$fitted.values, linr.fit.mul$fitted.values),
+      all.equal(lm.fit.mul$residuals, linr.fit.mul$residuals)))
+```
+
+
+```{r}
+# Testing Efficiency:
+MLR.time.linr = system.time(linr(Y.big ~ X.big))                               # Fitted by defult method 
+MLR.time.linr.qr = system.time(linr(Y.big ~ X.big, method = "qr"))             # Fitted by QR decomposition
+MLR.time.linr.svd = system.time(linr(Y.big ~ X.big, method = "svd"))           # Fitted by SVD decomposition
+MLR.time.linr.cholesky = system.time(linr(Y.big ~ X.big, method = "cholesky")) # Fitted by Cholesky decomposition
+MLR.time.lm = system.time(lm(Y.big ~ X.big))                                   
+
+data.frame(elapsed_time = c(linr = MLR.time.linr[3],
+                            linr.qr = MLR.time.linr.qr[3],
+                            linr.svd = MLR.time.linr.svd[3],
+                            linr.cholesky = MLR.time.linr.cholesky[3],
+                            lm = MLR.time.lm[3]))
+```
+
+
+
+
+
+
