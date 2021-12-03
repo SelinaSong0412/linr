@@ -1,26 +1,30 @@
-#' @title Function to Fit Linear Regression
+#' @title Function to Fit Linear Models with High Efficiency
 #'
-#' @description "linr" is used to fit a simple linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the QR method which is used in "lm" function in "stats" package. All three methods can fit linear model with high efficiency.
+#' @description "linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
 #'
-#' @param formula a symbolic description of the model to be fitted with specific pattern (i.e. y ~ x1 + x2 where y is the responding variable; x1 and x2 are the covariates for the model)
-#' @param data an optional data frame, list or environment containing the variables in the model. If not found in data, the variables are taken from formula.
-#' @param method an optional character string specifying the fitting method. It must be one of the strings "qr", "cholesky", or "svd".
+#' @param formula an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)
+#' @param data an optional data frame, list or environment containing the variables in the model. If not found in data, the variables are defultly taken from formula (environment), typically the environment from which lm is called.
+#' @param method an optional character string specifying the fitting method of matrix decomposition. It must be one of the strings "qr", "cholesky", or "svd".
 #'
-#' @return A list containing the following elements
+#' @return A list containing the following elements:
 #'         \itemize{
-#'           \item call - return the fitted linear model fomula and the corresponding data.
-#'           \item coefficients - a table with the estimated values for each covariates and the intercept as well as their corresponding standard error, t-statistics and (two-sided) p-value.
-#'           \item residuals - summary of the usual residuals with min, 1st quantile, median, 3rd quantile, max being computed.
-#'           \item fitted.values - the fitted mean values.
-#'           \item Residual standard error - the square root of the estimated variance of the random error and a corresponding degrees of freedom will also be computed.
-#'           \item R.squared - R^2, the 'fraction of variance explained by the model', SSR (variation in fitted values about the overall mean) / SSY (total variation in Y about its overall mean).
-#'           \item Adj.R.squared - adjusted version of R^2, penalized based on number of covariates.
-#'           \item SE.beta - the corresponding standard error for the estimated coefficient.
-#'           \item t value - the t-statistic for corresponding variable.
-#'           \item Pr(>|t|) - the corresponding (two-sided) p-value for the t-statistic
-#'           \item F.statistic - the test statistic for F-tests. Variation Between Sample Means / Variation Within the Samples.
+#'           \item {call} {The fitted linear model fomula and the corresponding data.}
+#'           \item {coefficients} {A vector of coefficients estimates. Containing the estimated regression parameters for intercept and each covariates.}
+#'           \item {fitted.values} {The fitted mean values.}
+#'           \item {residuals} {A vector of the difference between the observed value and the fitted mean values for that observation}
+#'           \item {MSE} {The residual standard error, the square root of the residual sum of squares divided by the residual degrees of freedom. It is a measure used to assess how well a linear regression model fits the data.}
+#'           \item {R.squared} {The coefficient determination, which indicates fraction of variance explained by the fitted model.}
+#'           \item {Adj.R.squared} - {A modified version of R-squared that has been adjusted for the number of predictors in the model.}
+#'           \item {std.error} {A vector of standatd error corresponds to each estimated coefficient.}
+#'           \item {T_statistic} {A vector of T-statistic corresponds to each estimated coefficient.}
+#'           \item {p_value.T} {The p-value (two-sided) for the T-statistic}
+#'           \item {F_statistic} {F-statistic, The ratio of the mean regression sum of squares divided by the mean error sum of squares.}
+#'           \item {p_value.F} {The p-value for the F-statistic}
 #'         }
-#' @seealso  \code{\link[utils]{head}}
+#' @seealso  QR decomposition: \code{\link[utils]{https://rstudio-pubs-static.s3.amazonaws.com/251311_c8970d1f1a8541aaa5884d86b1487ea6.html}}
+#' @seealso  SVD decomposition: \code{\link[utils]{https://en.wikipedia.org/wiki/Singular_value_decomposition}}
+#' @seealso  Cholesky decompostion: \code{\link[utils]{https://en.wikipedia.org/wiki/Cholesky_decomposition}
+#'
 #' @examples
 #' Linear_model.lm <- lm(dist~speed,data=cars)
 #' print(Linear_model.lm)
@@ -28,7 +32,11 @@
 #' print(Linear_model.linr$Call)
 #' print(Linear_model.linr$Coefficients)
 #'
-#' @import methods stats
+#' @importFrom methods hasArg
+#' @importFrom stats na.omit
+#' @importFrom stats pf
+#' @importFrom stats pt
+#' @importFrom stats model.frame
 #'
 #' @docType package
 #' @name linr
@@ -89,7 +97,7 @@ linr <- function(formula, data, method = "cholesky") {
     SE.betahat = c(SE.betahat0, SE.betahat1)                # Coefficient Standard Error
   }
 
-  else {
+  else { # High Efficient Multiple Linear Regression partly wrote with Rcpp
 
     X = cbind(rep(1, n), X)
 

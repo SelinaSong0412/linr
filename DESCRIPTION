@@ -4,9 +4,11 @@ Title: Function to Fit Linear Regression
 Version: 0.1.0
 Author: Yao Song
 Maintainer: Yao Song <yaos@umich.edu>
-Description: Function "linr" is used to fit a linear regression model by matrix decomposition method with high efficiency.    The regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD).    The defalt fitting method used is the Cholesky decomposition method which is used in "lm" function in "stats" package. All three methods can fit linear model with high efficiency.
+Description: "linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
 License: MIT + file LICENSE
-Imports: methods
+Imports: 
+    methods,
+    stats
 Encoding: UTF-8
 LazyData: true
 Suggests: 
