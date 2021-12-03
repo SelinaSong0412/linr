@@ -8,7 +8,7 @@
 linr(formula, data, method = "cholesky")
 }
 \arguments{
-\item{formula}{an object of class \link[stats::formula]{formula} (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)}
+\item{formula}{an object of class 'formula' (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)}
 
 \item{data}{an optional data frame, list or environment containing the variables in the model. If not found in data, the variables are defultly taken from formula (environment), typically the environment from which lm is called.}
 
@@ -34,10 +34,10 @@ An object of class "lm" is a list containing at least the following components:
         }
 }
 \description{
-"linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the  {\link[=https://en.wikipedia.org/wiki/QR_decomposition]{QR decomposition}}, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
+"linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
 }
 \details{
-See {\code{vignette("Intro_to_linr", package = "linr")}} for an overview of the package. Also see {\code{vignette("Efficiency_test", package = "linr")}} for efficiency testing of linr.
+See {\code{vignette("Intro_to_linr", package = "linr")}} for an overview of the package. Also see {\code{vignette("Efficiency_tests", package = "linr")}} for efficiency testing of linr.
 }
 \examples{
 Linear_model.lm <- lm(dist~speed,data=cars)

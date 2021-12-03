@@ -1,10 +1,10 @@
 #' @title Function to Fit Linear Models with High Efficiency
 #'
-#' @description "linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the  {\link[=https://en.wikipedia.org/wiki/QR_decomposition]{QR decomposition}}, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
+#' @description "linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
 #'
-#' @details See {\code{vignette("Intro_to_linr", package = "linr")}} for an overview of the package. Also see {\code{vignette("Efficiency_test", package = "linr")}} for efficiency testing of linr.
+#' @details See {\code{vignette("Intro_to_linr", package = "linr")}} for an overview of the package. Also see {\code{vignette("Efficiency_tests", package = "linr")}} for efficiency testing of linr.
 #'
-#' @param formula an object of class \link[stats::formula]{formula} (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)
+#' @param formula an object of class 'formula' (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)
 #' @param data an optional data frame, list or environment containing the variables in the model. If not found in data, the variables are defultly taken from formula (environment), typically the environment from which lm is called.
 #' @param method an optional character string specifying the fitting method of matrix decomposition. It must be one of the strings "qr", "cholesky", or "svd".
 #'
