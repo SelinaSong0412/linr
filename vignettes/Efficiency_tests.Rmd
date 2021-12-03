@@ -1,5 +1,7 @@
 ---
 title: "Efficiency Tests for 'linr'"
+author: "Yao Song"
+date: "2021/11/25"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Efficiency Tests for 'linr'}

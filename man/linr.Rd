@@ -8,31 +8,36 @@
 linr(formula, data, method = "cholesky")
 }
 \arguments{
-\item{formula}{an object of class "formula" (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)}
+\item{formula}{an object of class \link[stats::formula]{formula} (or one that can be coerced to that class): a symbolic description of the model to be fitted. (e.g. Y ~ X + Z, Y is the outcome, X and Z are predictors)}
 
 \item{data}{an optional data frame, list or environment containing the variables in the model. If not found in data, the variables are defultly taken from formula (environment), typically the environment from which lm is called.}
 
 \item{method}{an optional character string specifying the fitting method of matrix decomposition. It must be one of the strings "qr", "cholesky", or "svd".}
 }
 \value{
-A list containing the following elements:
+linr returns an object of class "linr".
+The functions linr.summary is used to obtain and print a summary and analysis of variance table of the results. The generic accessor functions coefficients, effects, fitted.values and residuals extract various useful features of the value returned by linr.
+An object of class "lm" is a list containing at least the following components:
         \itemize{
-          \item {call} {The fitted linear model fomula and the corresponding data.}
-          \item {coefficients} {A vector of coefficients estimates. Containing the estimated regression parameters for intercept and each covariates.}
-          \item {fitted.values} {The fitted mean values.}
-          \item {residuals} {A vector of the difference between the observed value and the fitted mean values for that observation}
-          \item {MSE} {The residual standard error, the square root of the residual sum of squares divided by the residual degrees of freedom. It is a measure used to assess how well a linear regression model fits the data.}
-          \item {R.squared} {The coefficient determination, which indicates fraction of variance explained by the fitted model.}
+          \item {Call} - {The fitted linear model fomula and the corresponding data.}
+          \item {coefficients} - {A vector of coefficients estimates. Containing the estimated regression parameters for intercept and each covariates.}
+          \item {fitted.values} - {The fitted mean values.}
+          \item {residuals} - {A vector of the difference between the observed value and the fitted mean values for that observation}
+          \item {MSE} - {The residual standard error, the square root of the residual sum of squares divided by the residual degrees of freedom. It is a measure used to assess how well a linear regression model fits the data.}
+          \item {R.squared} - {The coefficient determination, which indicates fraction of variance explained by the fitted model.}
           \item {Adj.R.squared} - {A modified version of R-squared that has been adjusted for the number of predictors in the model.}
-          \item {std.error} {A vector of standatd error corresponds to each estimated coefficient.}
-          \item {T_statistic} {A vector of T-statistic corresponds to each estimated coefficient.}
-          \item {p_value.T} {The p-value (two-sided) for the T-statistic}
-          \item {F_statistic} {F-statistic, The ratio of the mean regression sum of squares divided by the mean error sum of squares.}
-          \item {p_value.F} {The p-value for the F-statistic}
+          \item {std.error} - {A vector of standatd error corresponds to each estimated coefficient.}
+          \item {T_statistic} - {A vector of T-statistic corresponds to each estimated coefficient.}
+          \item {p_value.T} - {The p-value (two-sided) for the T-statistic}
+          \item {F_statistic} - {F-statistic, The ratio of the mean regression sum of squares divided by the mean error sum of squares.}
+          \item {p_value.F} - {The p-value for the F-statistic}
         }
 }
 \description{
-"linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
+"linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the  {\link[=https://en.wikipedia.org/wiki/QR_decomposition]{QR decomposition}}, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
+}
+\details{
+See {\code{vignette("Intro_to_linr", package = "linr")}} for an overview of the package. Also see {\code{vignette("Efficiency_test", package = "linr")}} for efficiency testing of linr.
 }
 \examples{
 Linear_model.lm <- lm(dist~speed,data=cars)
@@ -43,9 +48,9 @@ print(Linear_model.linr$Coefficients)
 
 }
 \seealso{
-QR decomposition: \code{\link[utils]{https://rstudio-pubs-static.s3.amazonaws.com/251311_c8970d1f1a8541aaa5884d86b1487ea6.html}}
-
-SVD decomposition: \code{\link[utils]{https://en.wikipedia.org/wiki/Singular_value_decomposition}}
-
-
+Useful links:
+       \itemize{
+         \item {Github page} {\url{https://github.com/SelinaSong0412/linr}}
+         \item {Report bug at} {\url{https://github.com/SelinaSong0412/linr/issues}}
+        }
 }
