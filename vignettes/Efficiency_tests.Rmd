@@ -1,10 +1,10 @@
 ---
-title: "Efficiency Tests for 'linr'"
+title: "Efficiency and Correctness Tests for 'linr'"
 author: "Yao Song"
 date: "2021/11/25"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Efficiency Tests for 'linr'}
+  %\VignetteIndexEntry{Efficiency and Correctness Tests for 'linr'}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
