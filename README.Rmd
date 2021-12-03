@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 # linr
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/SelinaSong0412/linr/workflows/R-CMD-check/badge.svg)](https://github.com/SelinaSong0412/linr/actions)
+[![codecov](https://codecov.io/gh/SelinaSong0412/linr/branch/main/graph/badge.svg?token=K6NRF4WUNZ)](https://codecov.io/gh/SelinaSong0412/linr)
 <!-- badges: end -->
 
 "linr" is used to fit a linear model. In this function, linear regression can be done by three matrix decomposition methods, which are the QR decomposition, Cholesky decomposition and the singular value decomposition (SVD). The defalt fitting method used is the Cholesky decomposition method. All three decomposition methods can fit linear model with high efficiency.
@@ -71,8 +73,8 @@ data.frame(model.linr$MSE,           # Mean square error
            model.linr$p_value.F)     # p value for F test 
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr$fitted.values)       # Look at the first 6 fitted values
-head(model.linr$residuals)           # Look at the first 6 residuals
+# head(model.linr$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr$residuals)           # Look at the first 6 residuals
 ```
 
 **Conducting multiple linear regression with 'linr'**
@@ -113,8 +115,8 @@ head(data.frame(model.linr.mul$MSE,           # Mean square error
            model.linr.mul$p_value.F))    # p value for F test 
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr.mul$fitted.values)       # Look at the first 6 fitted values
-head(model.linr.mul$residuals)           # Look at the first 6 residuals
+# head(model.linr.mul$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr.mul$residuals)           # Look at the first 6 residuals
 ```
 
 
@@ -145,8 +147,8 @@ data.frame(model.linr.cars$MSE,           # Mean square error
            model.linr.cars$p_value.F)     # p value for F test 
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr.cars$fitted.values)       # Look at the first 6 fitted values
-head(model.linr.cars$residuals)           # Look at the first 6 residuals
+# head(model.linr.cars$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr.cars$residuals)           # Look at the first 6 residuals
 ```
 
 **Conducting multiple linear regression with 'linr' on your data**
@@ -174,8 +176,8 @@ data.frame(model.linr.mtcars$MSE,           # Mean square error
            model.linr.mtcars$p_value.F)     # p value for F test 
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr.mtcars$fitted.values)       # Look at the first 6 fitted values
-head(model.linr.mtcars$residuals)           # Look at the first 6 residuals
+# head(model.linr.mtcars$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr.mtcars$residuals)           # Look at the first 6 residuals
 ```
 
 

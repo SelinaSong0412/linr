@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/SelinaSong0412/linr/workflows/R-CMD-check/badge.svg)](https://github.com/SelinaSong0412/linr/actions)
+[![codecov](https://codecov.io/gh/SelinaSong0412/linr/branch/main/graph/badge.svg?token=K6NRF4WUNZ)](https://codecov.io/gh/SelinaSong0412/linr)
 <!-- badges: end -->
 
 “linr” is used to fit a linear model. In this function, linear
@@ -22,8 +24,15 @@ You can install the development version of linr from
 ``` r
 # install.packages("devtools")
 devtools::install_github("SelinaSong0412/linr")
-#> Skipping install of 'linr' from a github remote, the SHA1 (d644867c) has not changed since last install.
-#>   Use `force = TRUE` to force installation
+#> Downloading GitHub repo SelinaSong0412/linr@HEAD
+#>      checking for file ‘/private/var/folders/_r/4mdt4w5x1wz3_hchxcgymgf40000gn/T/RtmpEVPtuE/remotes1487c10031018/SelinaSong0412-linr-5854a8e/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/_r/4mdt4w5x1wz3_hchxcgymgf40000gn/T/RtmpEVPtuE/remotes1487c10031018/SelinaSong0412-linr-5854a8e/DESCRIPTION’
+#>      preparing ‘linr’  ─  preparing ‘linr’:
+#>    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building ‘linr_0.1.0.tar.gz’
+#>      
+#> 
 ```
 
 ## Example
@@ -61,11 +70,11 @@ data.frame(model.linr$coefficients,  # Coefficient estimators
            model.linr$T_statistic,   # T statistics of estimators
            model.linr$p_value.T)     # p value for T test 
 #>             model.linr.coefficients model.linr.std.error model.linr.T_statistic
-#> (Intercept)              0.13985662           0.05800974              2.4109163
-#> x                        0.04586778           0.05512748              0.8320312
+#> (Intercept)            6.967282e-02           0.05812594            1.198652813
+#> x                     -8.761394e-05           0.05873288           -0.001491736
 #>             model.linr.p_value.T
-#> (Intercept)           0.01651757
-#> x                     0.40605756
+#> (Intercept)            0.2316153
+#> x                      0.9988108
 
 # Other items also can be checked by 
 data.frame(model.linr$MSE,           # Mean square error 
@@ -74,17 +83,13 @@ data.frame(model.linr$MSE,           # Mean square error
            model.linr$F_statistic,   # F statistics of estimators
            model.linr$p_value.F)     # p value for F test 
 #>   model.linr.MSE model.linr.R.square model.linr.Adj.R.square
-#> 1       1.008318          0.00231769            -0.001030238
+#> 1       1.011384        7.467368e-09            -0.003355697
 #>   model.linr.F_statistic model.linr.p_value.F
-#> 1               0.692276            0.4060576
+#> 1           2.225276e-06            0.9988108
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr$fitted.values)       # Look at the first 6 fitted values
-#>         1         2         3         4         5         6 
-#> 0.1525967 0.1430193 0.2210467 0.1487190 0.1531043 0.1954571
-head(model.linr$residuals)           # Look at the first 6 residuals
-#>          1          2          3          4          5          6 
-#> -0.7989436  0.5114387 -2.0251929  1.0667278 -1.1805524 -0.6623024
+# head(model.linr$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr$residuals)           # Look at the first 6 residuals
 ```
 
 **Conducting multiple linear regression with ‘linr’**
@@ -119,49 +124,49 @@ data.frame(model.linr.mul$coefficients,  # Coefficient estimators
            model.linr.mul$T_statistic,   # T statistics of estimators
            model.linr.mul$p_value.T)     # p value for T test 
 #>             model.linr.mul.coefficients model.linr.mul.std.error
-#> (Intercept)                -0.074264574               0.06040740
-#> X1                         -0.053145406               0.05921851
-#> X2                          0.012958519               0.05609091
-#> X3                          0.040848807               0.06669230
-#> X4                          0.008971084               0.06076053
-#> X5                          0.049830034               0.06189882
-#> X6                         -0.040990797               0.05926168
-#> X7                         -0.016816957               0.06020601
-#> X8                          0.079338241               0.05958332
-#> X9                         -0.017362241               0.05909733
-#> X10                        -0.026237534               0.06138220
-#> X11                         0.042497523               0.05921952
-#> X12                        -0.041619692               0.05798223
-#> X13                         0.084687123               0.05880522
-#> X14                        -0.003272730               0.05595713
-#> X15                         0.091348467               0.06130025
-#> X16                         0.016348209               0.05706257
-#> X17                         0.034613962               0.06091525
-#> X18                         0.013286902               0.06298354
-#> X19                        -0.154795149               0.05756523
-#> X20                         0.061953632               0.05887174
+#> (Intercept)                -0.069316084               0.06342209
+#> X1                         -0.033469478               0.06145244
+#> X2                         -0.016685846               0.06262762
+#> X3                         -0.011759906               0.06602438
+#> X4                         -0.023449794               0.06356825
+#> X5                          0.001626069               0.06816305
+#> X6                         -0.059660515               0.06549996
+#> X7                          0.113949987               0.06500186
+#> X8                          0.050928935               0.06569159
+#> X9                          0.007733220               0.06546342
+#> X10                        -0.062174065               0.06205717
+#> X11                        -0.016541237               0.06292192
+#> X12                        -0.008591924               0.06853914
+#> X13                         0.096573455               0.06975633
+#> X14                         0.063385431               0.07010726
+#> X15                        -0.028888862               0.06661836
+#> X16                         0.126467453               0.07120476
+#> X17                         0.104587020               0.06168259
+#> X18                         0.027777026               0.06490101
+#> X19                         0.016347450               0.06648398
+#> X20                        -0.015331052               0.06674606
 #>             model.linr.mul.T_statistic model.linr.mul.p_value.T
-#> (Intercept)                -1.22939535               0.21995939
-#> X1                         -0.89744587               0.37025481
-#> X2                          0.23102708               0.81746309
-#> X3                          0.61249656               0.54070815
-#> X4                          0.14764658               0.88272834
-#> X5                          0.80502392               0.42149137
-#> X6                         -0.69169142               0.48970632
-#> X7                         -0.27932357               0.78020347
-#> X8                          1.33155123               0.18409457
-#> X9                         -0.29379063               0.76913632
-#> X10                        -0.42744533               0.66938470
-#> X11                         0.71762688               0.47358780
-#> X12                        -0.71780083               0.47348069
-#> X13                         1.44012946               0.15095193
-#> X14                        -0.05848638               0.95340308
-#> X15                         1.49018101               0.13730627
-#> X16                         0.28649618               0.77471075
-#> X17                         0.56823148               0.57033484
-#> X18                         0.21095834               0.83307378
-#> X19                        -2.68903919               0.00759714
-#> X20                         1.05234926               0.29354991
+#> (Intercept)                -1.09293275               0.27536611
+#> X1                         -0.54464031               0.58643597
+#> X2                         -0.26642949               0.79010526
+#> X3                         -0.17811460               0.85876224
+#> X4                         -0.36889160               0.71248830
+#> X5                          0.02385558               0.98098486
+#> X6                         -0.91084807               0.36316170
+#> X7                          1.75302657               0.08069572
+#> X8                          0.77527323               0.43883482
+#> X9                          0.11813039               0.90604934
+#> X10                        -1.00188359               0.31726795
+#> X11                        -0.26288513               0.79283314
+#> X12                        -0.12535792               0.90033048
+#> X13                         1.38444010               0.16732999
+#> X14                         0.90412084               0.36671133
+#> X15                        -0.43364712               0.66487982
+#> X16                         1.77610958               0.07680467
+#> X17                         1.69556795               0.09108331
+#> X18                         0.42799068               0.66898809
+#> X19                         0.24588556               0.80595161
+#> X20                        -0.22969224               0.81849923
 
 # Other items also can be checked by 
 head(data.frame(model.linr.mul$MSE,           # Mean square error 
@@ -170,17 +175,13 @@ head(data.frame(model.linr.mul$MSE,           # Mean square error
            model.linr.mul$F_statistic,   # F statistics of estimators
            model.linr.mul$p_value.F))    # p value for F test 
 #>   model.linr.mul.MSE model.linr.mul.R.square model.linr.mul.Adj.R.square
-#> 1           1.007003              0.06595088                -0.001006049
+#> 1           1.137619              0.05094612                 -0.01708642
 #>   model.linr.mul.F_statistic model.linr.mul.p_value.F
-#> 1                  0.9849747                0.4805304
+#> 1                  0.7488493                0.7732871
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr.mul$fitted.values)       # Look at the first 6 fitted values
-#>          1          2          3          4          5          6 
-#> -0.5121500  0.2904791 -0.2491057  0.1380434  0.1117976 -0.1176255
-head(model.linr.mul$residuals)           # Look at the first 6 residuals
-#>          1          2          3          4          5          6 
-#>  0.2723953  1.8013609  0.1363735  0.2401183 -0.6491691 -1.0214279
+# head(model.linr.mul$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr.mul$residuals)           # Look at the first 6 residuals
 ```
 
 ## Using linr with regression formula and your own dataset
@@ -222,12 +223,8 @@ data.frame(model.linr.cars$MSE,           # Mean square error
 #> 1                    89.56711              1.489836e-12
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr.cars$fitted.values)       # Look at the first 6 fitted values
-#>         1         2         3         4         5         6 
-#> -1.849460 -1.849460  9.947766  9.947766 13.880175 17.812584
-head(model.linr.cars$residuals)           # Look at the first 6 residuals
-#>         1         2         3         4         5         6 
-#>  3.849460 11.849460 -5.947766 12.052234  2.119825 -7.812584
+# head(model.linr.cars$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr.cars$residuals)           # Look at the first 6 residuals
 ```
 
 **Conducting multiple linear regression with ‘linr’ on your data**
@@ -273,14 +270,6 @@ data.frame(model.linr.mtcars$MSE,           # Mean square error
 #> 1                2.171366e-10
 
 # You could also look at the fitted values and residuals like this:
-head(model.linr.mtcars$fitted.values)       # Look at the first 6 fitted values
-#>         Mazda RX4     Mazda RX4 Wag        Datsun 710    Hornet 4 Drive 
-#>          172.8692          192.4184          150.4224          229.2624 
-#> Hornet Sportabout           Valiant 
-#>          261.6668          272.1495
-head(model.linr.mtcars$residuals)           # Look at the first 6 residuals
-#>         Mazda RX4     Mazda RX4 Wag        Datsun 710    Hornet 4 Drive 
-#>         -12.86920         -32.41837         -42.42243          28.73764 
-#> Hornet Sportabout           Valiant 
-#>          98.33316         -47.14949
+# head(model.linr.mtcars$fitted.values)       # Look at the first 6 fitted values
+# head(model.linr.mtcars$residuals)           # Look at the first 6 residuals
 ```
