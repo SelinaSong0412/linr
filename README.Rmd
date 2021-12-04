@@ -33,6 +33,10 @@ You can install the development version of linr from [GitHub](https://github.com
 devtools::install_github("SelinaSong0412/linr")
 ```
 
+## Usage
+
+To learn the whole usage of 'linr', you can see 'vignette("Intro_to_linr", package = "linr")' for an overview of the package. Also see 'vignette("Efficiency_tests", package = "linr"' for efficiency testing of linr, which compares output with the 'lm' function in 'stats' package.
+
 ## Example
 
 The following are basic examples which shows you how to fit a linear model with 'linr' You can look at the examples and practice with the whole usage of 'linr'.
@@ -81,9 +85,11 @@ data.frame(model.linr$MSE,           # Mean square error
 
 You can fit your multiple regression model with 3 options of matrix decompositiom methods: 
 
-(1). QR decompositiom methods
-(2). SVD decompositiom methods
-(3). Cholesky decompositiom methods (Default)
+(1). [QR decompositiom methods](https://en.wikipedia.org/wiki/QR_decomposition) 
+
+(2). [SVD decompositiom methods](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+
+(3). [Cholesky decompositiom methods](https://en.wikipedia.org/wiki/Cholesky_decomposition) (Default)
 
 Here we first look at the default method:
 
@@ -120,7 +126,7 @@ head(data.frame(model.linr.mul$MSE,           # Mean square error
 ```
 
 
-## Using linr with regression formula and your own dataset
+### Using linr with regression formula and your own dataset
 
 **Conducting simple linear regression with 'linr' on your data**
 
@@ -180,6 +186,12 @@ data.frame(model.linr.mtcars$MSE,           # Mean square error
 # head(model.linr.mtcars$residuals)           # Look at the first 6 residuals
 ```
 
+
+## Useful links:
+
+* [Github page](https://github.com/SelinaSong0412/linr)
+
+* [Report bug](https://github.com/SelinaSong0412/linr/issues)
 
 
 

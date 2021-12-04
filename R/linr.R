@@ -8,9 +8,7 @@
 #' @param data an optional data frame, list or environment containing the variables in the model. If not found in data, the variables are defultly taken from formula (environment), typically the environment from which lm is called.
 #' @param method an optional character string specifying the fitting method of matrix decomposition. It must be one of the strings "qr", "cholesky", or "svd".
 #'
-#' @return linr returns an object of class "linr".
-#' The functions linr.summary is used to obtain and print a summary and analysis of variance table of the results. The generic accessor functions coefficients, effects, fitted.values and residuals extract various useful features of the value returned by linr.
-#' An object of class "lm" is a list containing at least the following components:
+#' @return linr returns an object of class "linr", a list containing at least the following components:
 #'         \itemize{
 #'           \item {Call} - {The fitted linear model fomula and the corresponding data.}
 #'           \item {coefficients} - {A vector of coefficients estimates. Containing the estimated regression parameters for intercept and each covariates.}
@@ -32,11 +30,30 @@
 #'         }
 #'
 #' @examples
-#' Linear_model.lm <- lm(dist~speed,data=cars)
-#' print(Linear_model.lm)
-#' Linear_model.linr <- linr(dist~speed,data=cars)
-#' print(Linear_model.linr$Call)
-#' print(Linear_model.linr$Coefficients)
+#' # you can fit linear model by existing datasets
+#' Linear_model.linr = linr(dist~speed, data=cars)
+#' print(Linear_model.linr$Call) # the fitted model
+#' print(Linear_model.linr$coefficients) # the coeeficient estimates
+#'
+#' # you can also use formula and predefined outcome and predictor to fit
+#' y = rnorm(300)
+#' x = matrix(rnorm(600), 300, 2)
+#' model.linr = linr(y ~ x)
+#' print(model.linr$Call) # the fitted model
+#' print(model.linr$std.error) # the standard errer of estimates
+#' print(model.linr$T_statistic) # the T statistics of estimates
+#' print(model.linr$p_value.T) # the p value of T-test
+#' print(model.linr$F_statistic) # the F statistics of estimates
+#' print(model.linr$p_value.F) # the p value of F-test
+#' print(model.linr$R.squared) # The coefficient determination
+#' print(model.linr$Adj.R.squared) # The adjusted coefficient determination
+#'
+#' # you can use 3 type of fitting methods as follows
+#' Y = rnorm(100)
+#' X = matrix(rnorm(600), 100, 6)
+#' fit1 = linr(Y ~ X, method = "qr")
+#' fit2 = linr(Y ~ X, method = "svd")
+#' fit3 = linr(Y ~ X, method = "cholesky")
 #'
 #' @importFrom methods hasArg
 #' @importFrom stats na.omit
@@ -56,32 +73,31 @@ linr <- function(formula, data, method = "cholesky") {
   } else {
     mf = model.frame(formula)
   }
+
   # Defining the outcome matrix Y and the Observation matrix X.
-  Y = mf[, 1]
+  Y = as.matrix(mf[, 1])
   X = as.matrix(mf[, -1])
   colnames(X) = NULL
   rownames(X) = NULL
-  if (!is.numeric(Y)) {stop("The outcomes should be numeric")}
 
-  # convert vector to matrix
-  if (is.null(attributes(Y))) {attr(Y, "dim") = c(length(Y), 1)}
-  if (is.null(attributes(X))) {attr(X, "dim") = c(length(X), 1)}
+  if (!is.numeric(Y)) {
+    stop("The outcomes should be numeric")
+  } else if (dim(Y)[2] != 1) {
+    stop("Please input valid regression outcome")
+  }
 
-  # # Checking dimension of X and Y. If wrong, return error.
-  # if (nrow(Y) != nrow(X)) {
-  #   stop("Number of the outcomes and observations do not match.")
-  # } else if (nrow(X) < ncol(X)) {
-  #   stop("Number of observations is less than predictors.")
-  # }
+  # Checking dimension of X. If wrong, return error.
+  if (nrow(X) < ncol(X)) {
+    stop("Number of observations is less than predictors.")
+  }
 
   n = nrow(Y)
   p = ncol(X) + 1
 
-  # if (n == 0L) stop("0 (non-NA) cases")
-  # if (p == 1L) { # The Null model
-  #   return(list(coefficients = numeric(), residuals = Y,
-  #               fitted.values = 0 * Y, rank = 0))
-  # }
+  if (p == 1L) { # The Null model
+    fit = list(Call = cl, coefficients = numeric(),
+               residuals = Y, fitted.values = Y * 0)
+  }
 
   if (p == 2L) { # High Efficient Simple Linear Regression.
     x = as.vector(X) - mean(X)
@@ -107,7 +123,7 @@ linr <- function(formula, data, method = "cholesky") {
     X = cbind(rep(1, n), X)
 
     if (method != "svd" & method != "qr" & method != "cholesky") {
-      warning(gettextf("method = '%s' is not supported. Using 'qr', 'svd' or 'cholesky'", method), domain = NA)
+      stop(gettextf("method = '%s' is not supported. Using 'qr', 'svd' or 'cholesky'", method), domain = NA)
     }
 
     else if (method == "svd") { # if using SVD decomposition method
@@ -148,10 +164,10 @@ linr <- function(formula, data, method = "cholesky") {
 
   # Give names to variables and observations.
   vars = colnames(mf)[-1]
-  if (hasArg(data)) {                                       # If have input data names
+  if (hasArg(data)) {                                       # If have input data
     variab = c("(Intercept)", vars)
     observ = rownames(mf)
-  } else {                                                  # If not have input data names
+  } else {                                                  # If not have input data
     if (p > 2) {
       variab = c("(Intercept)", paste0(vars, 1:(p - 1)))
     } else {
@@ -159,7 +175,6 @@ linr <- function(formula, data, method = "cholesky") {
     }
     observ = 1:n
   }
-
   names(betahat) = variab
   names(fit.val) = observ
   names(residuals) = observ
@@ -172,6 +187,7 @@ linr <- function(formula, data, method = "cholesky") {
               R.square = R.square, Adj.R.square = Adj.R.square,
               T_statistic = T.stat, p_value.T = p.val.T,
               F_statistic = F.stat, p_value.F = p.val.F)
+
   class(fit) = "linr"
   return(fit)
 }

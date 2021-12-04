@@ -24,9 +24,17 @@ You can install the development version of linr from
 ``` r
 # install.packages("devtools")
 devtools::install_github("SelinaSong0412/linr")
-#> Skipping install of 'linr' from a github remote, the SHA1 (ef72ae1e) has not changed since last install.
+#> Skipping install of 'linr' from a github remote, the SHA1 (d710a063) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 ```
+
+## Usage
+
+To learn the whole usage of ‘linr’, you can see
+‘vignette(“Intro\_to\_linr”, package = “linr”)’ for an overview of
+the package. Also see ‘vignette(“Efficiency\_tests”, package = “linr”’
+for efficiency testing of linr, which compares output with the ‘lm’
+function in ‘stats’ package.
 
 ## Example
 
@@ -63,11 +71,11 @@ data.frame(model.linr$coefficients,  # Coefficient estimators
            model.linr$T_statistic,   # T statistics of estimators
            model.linr$p_value.T)     # p value for T test 
 #>             model.linr.coefficients model.linr.std.error model.linr.T_statistic
-#> (Intercept)              0.01287051           0.05733919              0.2244628
-#> x                        0.04050764           0.05889730              0.6877673
+#> (Intercept)             -0.05389014           0.06288982             -0.8568977
+#> x                        0.07208836           0.06383298              1.1293277
 #>             model.linr.p_value.T
-#> (Intercept)            0.8225510
-#> x                      0.4921343
+#> (Intercept)            0.3921900
+#> x                      0.2596679
 
 # Other items also can be checked by 
 data.frame(model.linr$MSE,           # Mean square error 
@@ -76,9 +84,9 @@ data.frame(model.linr$MSE,           # Mean square error
            model.linr$F_statistic,   # F statistics of estimators
            model.linr$p_value.F)     # p value for F test 
 #>   model.linr.MSE model.linr.R.square model.linr.Adj.R.square
-#> 1      0.9858329         0.001584813            -0.001765574
+#> 1       1.181259         0.004261564            0.0009201596
 #>   model.linr.F_statistic model.linr.p_value.F
-#> 1              0.4730239            0.4921343
+#> 1               1.275381            0.2596679
 
 # You could also look at the fitted values and residuals like this:
 # head(model.linr$fitted.values)       # Look at the first 6 fitted values
@@ -90,8 +98,14 @@ data.frame(model.linr$MSE,           # Mean square error
 You can fit your multiple regression model with 3 options of matrix
 decompositiom methods:
 
-(1). QR decompositiom methods (2). SVD decompositiom methods (3).
-Cholesky decompositiom methods (Default)
+(1). [QR decompositiom
+methods](https://en.wikipedia.org/wiki/QR_decomposition)
+
+(2). [SVD decompositiom
+methods](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+
+(3). [Cholesky decompositiom
+methods](https://en.wikipedia.org/wiki/Cholesky_decomposition) (Default)
 
 Here we first look at the default method:
 
@@ -117,49 +131,49 @@ data.frame(model.linr.mul$coefficients,  # Coefficient estimators
            model.linr.mul$T_statistic,   # T statistics of estimators
            model.linr.mul$p_value.T)     # p value for T test 
 #>             model.linr.mul.coefficients model.linr.mul.std.error
-#> (Intercept)                -0.095203718               0.05669391
-#> X1                          0.067018787               0.05384077
-#> X2                         -0.006984395               0.05259584
-#> X3                          0.011218568               0.05398574
-#> X4                         -0.067515061               0.05621280
-#> X5                          0.002699125               0.05809835
-#> X6                          0.043412850               0.05852726
-#> X7                          0.012691220               0.05542140
-#> X8                          0.035108726               0.05404438
-#> X9                         -0.004298703               0.05618355
-#> X10                         0.100498364               0.05362142
-#> X11                         0.028196111               0.05363842
-#> X12                         0.011547750               0.05518426
-#> X13                         0.047719957               0.05965169
-#> X14                         0.037659728               0.05488645
-#> X15                        -0.086261677               0.05470771
-#> X16                         0.054741973               0.05888930
-#> X17                        -0.147773564               0.05655155
-#> X18                        -0.029019247               0.05951215
-#> X19                        -0.020268914               0.05670964
-#> X20                        -0.096250270               0.05528840
+#> (Intercept)                 0.084313678               0.06081209
+#> X1                         -0.017367644               0.06053924
+#> X2                         -0.042827706               0.05748435
+#> X3                          0.011857728               0.06578154
+#> X4                          0.042862795               0.05805621
+#> X5                          0.079068985               0.05566266
+#> X6                         -0.130055687               0.06121666
+#> X7                          0.089119677               0.06165100
+#> X8                         -0.080534554               0.05821242
+#> X9                         -0.053426242               0.06290721
+#> X10                        -0.032731861               0.06545446
+#> X11                         0.022254678               0.06412335
+#> X12                         0.068594554               0.05798457
+#> X13                        -0.075565165               0.05924879
+#> X14                         0.016021373               0.05767507
+#> X15                        -0.013185987               0.05864230
+#> X16                        -0.045489617               0.05793860
+#> X17                         0.030571950               0.05950727
+#> X18                        -0.005089284               0.05991499
+#> X19                        -0.054453125               0.05992383
+#> X20                         0.073779548               0.05981243
 #>             model.linr.mul.T_statistic model.linr.mul.p_value.T
-#> (Intercept)                -1.67925835              0.094221182
-#> X1                          1.24475911              0.214264870
-#> X2                         -0.13279369              0.894452270
-#> X3                          0.20780614              0.835531946
-#> X4                         -1.20106212              0.230745744
-#> X5                          0.04645786              0.962978559
-#> X6                          0.74175432              0.458860138
-#> X7                          0.22899494              0.819040621
-#> X8                          0.64962764              0.516467248
-#> X9                         -0.07651177              0.939066791
-#> X10                         1.87422047              0.061944968
-#> X11                         0.52567002              0.599535038
-#> X12                         0.20925805              0.834399509
-#> X13                         0.79997659              0.424404965
-#> X14                         0.68613893              0.493195294
-#> X15                        -1.57677365              0.115980770
-#> X16                         0.92957419              0.353395165
-#> X17                        -2.61307715              0.009459748
-#> X18                        -0.48761885              0.626202780
-#> X19                        -0.35741565              0.721050878
-#> X20                        -1.74087635              0.082807644
+#> (Intercept)                 1.38646236               0.16671266
+#> X1                         -0.28688241               0.77441530
+#> X2                         -0.74503249               0.45687921
+#> X3                          0.18025922               0.85707993
+#> X4                          0.73829824               0.46095380
+#> X5                          1.42050324               0.15657779
+#> X6                         -2.12451459               0.03450639
+#> X7                          1.44555125               0.14942541
+#> X8                         -1.38345991               0.16762983
+#> X9                         -0.84928647               0.39645004
+#> X10                        -0.50007073               0.61741946
+#> X11                         0.34706046               0.72880754
+#> X12                         1.18297942               0.23782437
+#> X13                        -1.27538740               0.20323308
+#> X14                         0.27778680               0.78138176
+#> X15                        -0.22485453               0.82225704
+#> X16                        -0.78513491               0.43304066
+#> X17                         0.51375150               0.60783237
+#> X18                        -0.08494175               0.93236862
+#> X19                        -0.90870563               0.36428980
+#> X20                         1.23351527               0.21842175
 
 # Other items also can be checked by 
 head(data.frame(model.linr.mul$MSE,           # Mean square error 
@@ -168,16 +182,16 @@ head(data.frame(model.linr.mul$MSE,           # Mean square error
            model.linr.mul$F_statistic,   # F statistics of estimators
            model.linr.mul$p_value.F))    # p value for F test 
 #>   model.linr.mul.MSE model.linr.mul.R.square model.linr.mul.Adj.R.square
-#> 1          0.8813471              0.06983486                 0.003156357
+#> 1            1.00366               0.0664887                 -0.00042967
 #>   model.linr.mul.F_statistic model.linr.mul.p_value.F
-#> 1                   1.047337                0.4065352
+#> 1                  0.9935792                0.4700252
 
 # You could also look at the fitted values and residuals like this:
 # head(model.linr.mul$fitted.values)       # Look at the first 6 fitted values
 # head(model.linr.mul$residuals)           # Look at the first 6 residuals
 ```
 
-## Using linr with regression formula and your own dataset
+### Using linr with regression formula and your own dataset
 
 **Conducting simple linear regression with ‘linr’ on your data**
 
@@ -266,3 +280,9 @@ data.frame(model.linr.mtcars$MSE,           # Mean square error
 # head(model.linr.mtcars$fitted.values)       # Look at the first 6 fitted values
 # head(model.linr.mtcars$residuals)           # Look at the first 6 residuals
 ```
+
+## Useful links:
+
+  - [Github page](https://github.com/SelinaSong0412/linr)
+
+  - [Report bug](https://github.com/SelinaSong0412/linr/issues)

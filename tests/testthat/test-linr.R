@@ -71,33 +71,34 @@ test_that("Output of Error", {
   expect_error(linr(Y.nonnumeric~x), "The outcomes should be numeric")
 })
 
-# test_that("Output of Error", {
-#   # Test error outputs:
-#   Y.nonnumeric = rep("1", 300)
-#   x = rnorm(300)
-#   expect_error(linr(Y.nonnumeric~x), "The outcomes should be numeric")
-# })
-#
-# test_that("Output of Error", {
-#   # Test error outputs:
-#   y = rnorm(300)
-#   x = rnorm(301)
-#   expect_error(linr(y~x), "Number of the outcomes and observations do not match.")
-# })
-#
-# test_that("Output of Error", {
-#   # Test error outputs:
-#   Y = rnorm(300)
-#   X = matrix(rnorm(6000), nrow = 30, ncol = 200)
-#   expect_error(linr(Y~X), "Number of observations is less than predictors.")
-# })
-#
-# test_that("Output of Error is.null(n)", {
-#   # Test error outputs:
-#   Y = rnorm(300)
-#   X = c()
-#   expect_error(linr(Y~X), "Number of observations is less than predictors.")
-# })
+test_that("Input wrong method", {
+  # Test error outputs:
+  Y = rnorm(300)
+  X = matrix(rnorm(6000), nrow = 300, ncol = 20)
+  expect_error(linr(Y ~ X, method = "mymethod"), "method = 'mymethod' is not supported. Using 'qr', 'svd' or 'cholesky'")
+})
+
+test_that("Input wrong Y", {
+  # Test error outputs:
+  Y.nonnumeric = rep("1", 300)
+  x = rnorm(300)
+  expect_error(linr(Y.nonnumeric~x), "The outcomes should be numeric")
+})
+
+test_that("Input wrong X", {
+  # Test error outputs:
+  Y = rnorm(30)
+  X = matrix(rnorm(6000), nrow = 30, ncol = 200)
+  expect_error(linr(Y ~ X), "Number of observations is less than predictors.")
+})
+
+
+test_that("Output of Error is.null(n)", {
+  # Test error outputs:
+  Y = matrix(rnorm(60), nrow = 30, ncol = 2)
+  X = rnorm(30)
+  expect_error(linr(Y~X), "Please input valid regression outcome")
+})
 
 
 

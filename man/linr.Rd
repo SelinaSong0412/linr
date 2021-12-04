@@ -15,9 +15,7 @@ linr(formula, data, method = "cholesky")
 \item{method}{an optional character string specifying the fitting method of matrix decomposition. It must be one of the strings "qr", "cholesky", or "svd".}
 }
 \value{
-linr returns an object of class "linr".
-The functions linr.summary is used to obtain and print a summary and analysis of variance table of the results. The generic accessor functions coefficients, effects, fitted.values and residuals extract various useful features of the value returned by linr.
-An object of class "lm" is a list containing at least the following components:
+linr returns an object of class "linr", a list containing at least the following components:
         \itemize{
           \item {Call} - {The fitted linear model fomula and the corresponding data.}
           \item {coefficients} - {A vector of coefficients estimates. Containing the estimated regression parameters for intercept and each covariates.}
@@ -40,11 +38,30 @@ An object of class "lm" is a list containing at least the following components:
 See {\code{vignette("Intro_to_linr", package = "linr")}} for an overview of the package. Also see {\code{vignette("Efficiency_tests", package = "linr")}} for efficiency testing of linr.
 }
 \examples{
-Linear_model.lm <- lm(dist~speed,data=cars)
-print(Linear_model.lm)
-Linear_model.linr <- linr(dist~speed,data=cars)
-print(Linear_model.linr$Call)
-print(Linear_model.linr$Coefficients)
+# you can fit linear model by existing datasets
+Linear_model.linr = linr(dist~speed, data=cars)
+print(Linear_model.linr$Call) # the fitted model
+print(Linear_model.linr$coefficients) # the coeeficient estimates
+
+# you can also use formula and predefined outcome and predictor to fit
+y = rnorm(300)
+x = matrix(rnorm(600), 300, 2)
+model.linr = linr(y ~ x)
+print(model.linr$Call) # the fitted model
+print(model.linr$std.error) # the standard errer of estimates
+print(model.linr$T_statistic) # the T statistics of estimates
+print(model.linr$p_value.T) # the p value of T-test
+print(model.linr$F_statistic) # the F statistics of estimates
+print(model.linr$p_value.F) # the p value of F-test
+print(model.linr$R.squared) # The coefficient determination
+print(model.linr$Adj.R.squared) # The adjusted coefficient determination
+
+# you can use 3 type of fitting methods as follows
+Y = rnorm(100)
+X = matrix(rnorm(600), 100, 6)
+fit1 = linr(Y ~ X, method = "qr")
+fit2 = linr(Y ~ X, method = "svd")
+fit3 = linr(Y ~ X, method = "cholesky")
 
 }
 \seealso{
