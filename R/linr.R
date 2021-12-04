@@ -111,7 +111,7 @@ linr <- function(formula, data, method = "cholesky") {
     }
 
     else if (method == "svd") { # if using SVD decomposition method
-      svd_decom = svd(X, LINPACK = TRUE)
+      svd_decom = svd(X)
       tuy = crossprod(svd_decom$u, Y)
       betahat = crossprod(t(svd_decom$v), (tuy / svd_decom$d))
     }
