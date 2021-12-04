@@ -94,11 +94,6 @@ linr <- function(formula, data, method = "cholesky") {
   n = nrow(Y)
   p = ncol(X) + 1
 
-  if (p == 1L) { # The Null model
-    fit = list(Call = cl, coefficients = numeric(),
-               residuals = Y, fitted.values = Y * 0)
-  }
-
   if (p == 2L) { # High Efficient Simple Linear Regression.
     x = as.vector(X) - mean(X)
     y = as.vector(Y) - mean(Y)
