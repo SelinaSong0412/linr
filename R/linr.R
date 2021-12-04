@@ -67,22 +67,21 @@ linr <- function(formula, data, method = "cholesky") {
   if (is.null(attributes(Y))) {attr(Y, "dim") = c(length(Y), 1)}
   if (is.null(attributes(X))) {attr(X, "dim") = c(length(X), 1)}
 
-  # Checking dimension of X and Y. If wrong, return error.
-  if (nrow(Y) != nrow(X)) {
-    stop("Number of the outcomes and observations do not match.")
-  } else if (nrow(X) < ncol(X)) {
-    stop("Number of observations is less than predictors.")
-  }
+  # # Checking dimension of X and Y. If wrong, return error.
+  # if (nrow(Y) != nrow(X)) {
+  #   stop("Number of the outcomes and observations do not match.")
+  # } else if (nrow(X) < ncol(X)) {
+  #   stop("Number of observations is less than predictors.")
+  # }
 
-  n = nrow(X)
+  n = nrow(Y)
   p = ncol(X) + 1
 
-  if (is.null(n)) stop("'x' must be a matrix")
-  if (n == 0L) stop("0 (non-NA) cases")
-  if (p == 1L) { # The Null model
-    return(list(coefficients = numeric(), residuals = Y,
-                fitted.values = 0 * Y, rank = 0))
-  }
+  # if (n == 0L) stop("0 (non-NA) cases")
+  # if (p == 1L) { # The Null model
+  #   return(list(coefficients = numeric(), residuals = Y,
+  #               fitted.values = 0 * Y, rank = 0))
+  # }
 
   if (p == 2L) { # High Efficient Simple Linear Regression.
     x = as.vector(X) - mean(X)
