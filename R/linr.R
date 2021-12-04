@@ -15,8 +15,8 @@
 #'           \item {fitted.values} - {The fitted mean values.}
 #'           \item {residuals} - {A vector of the difference between the observed value and the fitted mean values for that observation}
 #'           \item {MSE} - {The residual standard error, the square root of the residual sum of squares divided by the residual degrees of freedom. It is a measure used to assess how well a linear regression model fits the data.}
-#'           \item {R.squared} - {The coefficient determination, which indicates fraction of variance explained by the fitted model.}
-#'           \item {Adj.R.squared} - {A modified version of R-squared that has been adjusted for the number of predictors in the model.}
+#'           \item {R.square} - {The coefficient determination, which indicates fraction of variance explained by the fitted model.}
+#'           \item {Adj.R.square} - {A modified version of R-squared that has been adjusted for the number of predictors in the model.}
 #'           \item {std.error} - {A vector of standatd error corresponds to each estimated coefficient.}
 #'           \item {T_statistic} - {A vector of T-statistic corresponds to each estimated coefficient.}
 #'           \item {p_value.T} - {The p-value (two-sided) for the T-statistic}
@@ -34,19 +34,23 @@
 #' Linear_model.linr = linr(dist~speed, data=cars)
 #' print(Linear_model.linr$Call) # the fitted model
 #' print(Linear_model.linr$coefficients) # the coeeficient estimates
+#' head(Linear_model.linr$residuals) # the first 6 residuals
+#' head(Linear_model.linr$fitted.values) # the first 6 fitted values
+#'
 #'
 #' # you can also use formula and predefined outcome and predictor to fit
 #' y = rnorm(300)
 #' x = matrix(rnorm(600), 300, 2)
 #' model.linr = linr(y ~ x)
 #' print(model.linr$Call) # the fitted model
+#' print(model.linr$MSE) # the mean square error of the fit
 #' print(model.linr$std.error) # the standard errer of estimates
 #' print(model.linr$T_statistic) # the T statistics of estimates
 #' print(model.linr$p_value.T) # the p value of T-test
 #' print(model.linr$F_statistic) # the F statistics of estimates
 #' print(model.linr$p_value.F) # the p value of F-test
-#' print(model.linr$R.squared) # The coefficient determination
-#' print(model.linr$Adj.R.squared) # The adjusted coefficient determination
+#' print(model.linr$R.square) # The coefficient determination
+#' print(model.linr$Adj.R.square) # The adjusted coefficient determination
 #'
 #' # you can use 3 type of fitting methods as follows
 #' Y = rnorm(100)
