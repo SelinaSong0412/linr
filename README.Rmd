@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 # linr
 
-<!-- badges: start -->
+<!-- badges: start --> 
 [![R-CMD-check](https://github.com/SelinaSong0412/linr/workflows/R-CMD-check/badge.svg)](https://github.com/SelinaSong0412/linr/actions)
 [![codecov](https://codecov.io/gh/SelinaSong0412/linr/branch/main/graph/badge.svg?token=K6NRF4WUNZ)](https://codecov.io/gh/SelinaSong0412/linr)
 <!-- badges: end -->
